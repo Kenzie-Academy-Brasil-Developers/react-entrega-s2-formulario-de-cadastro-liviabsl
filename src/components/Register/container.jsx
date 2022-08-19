@@ -4,41 +4,15 @@ import { Button } from "./style.js";
 import { useForm } from "react-hook-form";
 import * as yup from "yup"
 import { yupResolver } from '@hookform/resolvers/yup';
-import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {useNavigate} from "react-router-dom"
+import { useContext } from "react";
+import { AuthContext } from "../../context/context.jsx";
 
 
 
 function Container(){
-
-    const navigate = useNavigate()
-
-    const notifySucess = () => toast.success("Cadastro criado com sucesso!!", {
-        autoClose: 1500
-    });
-
-
-    const onSubmitFunction = (dados) => {
-        const newUser = {
-            email:dados.email,
-            password:dados.senha,
-            name:dados.nome,
-            bio:dados.bio,
-            contact:dados.contato,
-            course_module:dados.module
-        }
-        console.log(newUser)
-        axios.post("https://kenziehub.herokuapp.com/users", newUser)
-        .then((response)=> console.log(response.data))
-        .then(notifySucess)
-        setTimeout(() => {
-        navigate("/login", {replace:true})
-        }, 4000)
-        .catch((err)=> console.log(err))
-        
-    }
+    const {functionRegister} = useContext(AuthContext)
     
 
     const formSchema = yup.object().shape({
@@ -51,7 +25,6 @@ function Container(){
             message:'Formato incorreto. Exemplo 25 ou 25.1',
             excludeEmptyString: true
         }),
-        /*yup.string().required("Campo obrigatório").matches(/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,"Phone number is not valid"),*/
         module:yup.string().required("Campo obrigatório"),
     })
 
@@ -69,7 +42,7 @@ function Container(){
         <ContainerRegister>
             <h1>Crie sua conta</h1>
             <span>Rápido e grátis, vamos nessa!</span>
-            <form onSubmit={handleSubmit(onSubmitFunction)}>
+            <form onSubmit={handleSubmit(functionRegister)}>
                 <label>Nome:</label>
                 <input placeholder="Digite aqui seu nome" {...register("nome")}></input>
                 <span>{errors.nome?.message}</span>

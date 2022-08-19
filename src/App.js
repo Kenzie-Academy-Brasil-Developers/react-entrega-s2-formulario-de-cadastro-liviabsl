@@ -4,6 +4,7 @@ import LoginPage from "./pages/login";
 import Register from "./pages/register";
 import HomePage from "./pages/homePage";
 import { useState } from "react";
+//import AuthProvider from "./context/userContext"
 
 function App() {
 
@@ -11,7 +12,7 @@ function App() {
   const [user, setUser] = useState([])
   
   return (
-
+    //<AuthProvider>
 
     <Routes>
       <Route
@@ -32,17 +33,20 @@ function App() {
         }
       />
 
+      
       <Route
         path="/homepage"
         element={
           <div className="App">
-            <HomePage user={user}/>
+            <HomePage user={user} setUser={setUser}/>
           </div>
         }
       />
 
       <Route path="*" element={<Navigate replace to="/login" />} />
     </Routes>
+
+    //</AuthProvider>
   );
 }
 

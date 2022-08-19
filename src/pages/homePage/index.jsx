@@ -1,9 +1,9 @@
 import ContainerFunction from "../../components/homepage/container"
 
 
-function HomePage({user}){
+function HomePage({user, setUser}){
     return(
-        <ContainerFunction user={user}></ContainerFunction>
+        <ContainerFunction user={user} setUser={setUser}></ContainerFunction>
     )
 }
 

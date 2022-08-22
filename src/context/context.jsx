@@ -43,10 +43,7 @@ export const AuthProvider = ({ children }) => {
       .post("https://kenziehub.herokuapp.com/sessions", newUser)
       .then((response) => {
         console.log(response);
-        localStorage.setItem(
-          "@kenzie-hub-login-token",
-          JSON.stringify(response.data.token)
-        );
+        localStorage.setItem("@kenzie-hub-login-token",response.data.token);
         localStorage.setItem(
           "@kenzie-hub-login-userid",
           JSON.stringify(response.data.user.id)

@@ -5,11 +5,12 @@ import { useContext } from "react";
 import { AuthContext } from "./context";
 import { toast } from "react-toastify";
 import { api } from "../api/api";
+import { useEffect } from "react";
 
 export const techContext = createContext({});
 
 export const TechProvider = ({ children }) => {
-  const { techs, setTechs } = useContext(AuthContext);
+const  [techs, setTechs ] = useState ([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
 
 
@@ -26,15 +27,36 @@ export const TechProvider = ({ children }) => {
       })
       .then((response) => {
         console.log(response);
-        /*setTechs([...techs, response.data]);
+        //setTechs([...techs, response.data]);
         setIsOpenModal(false);
-        toast.success("Tecnologia criada com sucesso :)");*/
+        toast.success("Tecnologia criada com sucesso :)", {
+          autoClose: 1500,
+        });
+        
       })
       .catch((err) => {
         console.log(err);
-        toast.error("Oops! Erro ao criar tecnologia :(");
+        toast.error("Oops! Erro ao criar tecnologia :(", {
+          autoClose: 1500,
+        });
       });
   };
+
+
+  useEffect(()=> {
+
+    const token = localStorage.getItem("@kenzie-hub-login-token");
+    console.log(token)
+    const id = JSON.parse(localStorage.getItem("@kenzie-hub-login-userid"));
+    console.log(id)
+    api.get(`/users/${id}`,  {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    })
+    .then((response)=> setTechs(response.data.techs))
+
+  },[techs])
 
 
 
@@ -46,18 +68,21 @@ export const TechProvider = ({ children }) => {
           }
     })
     .then((response)=>{
-        const newTechs = techs.filter((tech) => tech.id !== tech_id);
-        setTechs(newTechs);
-        toast.success("tecnlogia deletada com sucesso");
+    
+        toast.success("tecnlogia deletada com sucesso", {
+          autoClose: 1500,
+        });
     })
     .catch((err)=> {
         console.log(err);
-        toast.error("Erro ao excluir tecnologia. Tente novamente!");
+        toast.error("Erro ao excluir tecnologia. Tente novamente!", {
+          autoClose: 1500,
+        });
     })
   }
 
   return (
-    <techContext.Provider value={{ isOpenModal, setIsOpenModal , createTech, deleteTech}}>
+    <techContext.Provider value={{ isOpenModal, setIsOpenModal , createTech, deleteTech, techs}}>
       {children}
     </techContext.Provider>
   );

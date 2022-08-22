@@ -15,23 +15,27 @@ import { useContext } from "react";
 import { AuthContext } from "../../context/context";
 import { techContext } from "../../context/techContext";
 import { useForm } from "react-hook-form";
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 function ContainerFunction() {
-
   const { logout } = useContext(AuthContext);
-  const { isOpenModal, setIsOpenModal, createTech, deleteTech } = useContext(techContext);
+  const { isOpenModal, setIsOpenModal, createTech, deleteTech, techs } =
+    useContext(techContext);
 
   const formSchema = yup.object().shape({
     title: yup.string().required("campo obrigatório"),
-});
+  });
 
   const user = JSON.parse(localStorage.getItem("@kenzie-hub-login-user"));
 
-    const {register, handleSubmit, formState:{errors}} = useForm({resolver: yupResolver(formSchema)})
-    
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(formSchema) });
 
+  console.log(techs);
   return (
     <ContainerHome>
       <ToastContainer />
@@ -47,16 +51,20 @@ function ContainerFunction() {
         <h1>Tecnologias</h1>
         <button onClick={() => setIsOpenModal(true)}>+</button>
       </TecnologiasHeader>
+
       <TecnologiasCard>
 
-    {/*map*/}
-
-      <Card>
-          <h1>Título teste</h1>
-          <p>parágrafo teste</p>
-          <button onClick={()=> deleteTech()}><img src="delete.png" alt="deleteImage"></img></button>
-        </Card>
-
+        {techs.map((item) => 
+          (
+          <Card key={item.id}>
+            <h1>{item.title}</h1>
+            <p>{item.status}</p>
+            <button onClick={() => deleteTech(item.id)}>
+              <img src="delete.png" alt="deleteImage"></img>
+            </button>
+          </Card>
+          )
+        )}
 
       </TecnologiasCard>
 
@@ -81,8 +89,6 @@ function ContainerFunction() {
 
             <Button type="submit">Cadastrar tecnologia</Button>
           </Form>
-
-          
         </Modal>
       )}
     </ContainerHome>

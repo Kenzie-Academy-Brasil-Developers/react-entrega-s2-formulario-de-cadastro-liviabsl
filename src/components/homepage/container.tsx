@@ -18,24 +18,28 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
+
+interface IError{
+  title:string,
+  status:string
+}
+
 function ContainerFunction() {
   const { logout } = useContext(AuthContext);
-  const { isOpenModal, setIsOpenModal, createTech, deleteTech, techs } =
+  const { isOpenModal, setIsOpenModal, createTech, deleteTech, techs, dataUser } =
     useContext(techContext);
 
   const formSchema = yup.object().shape({
     title: yup.string().required("campo obrigatório"),
   });
 
-  const user = JSON.parse(localStorage.getItem("@kenzie-hub-login-user"));
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(formSchema) });
+  } = useForm<IError>({ resolver: yupResolver(formSchema) });
 
-  console.log(techs);
   return (
     <ContainerHome>
       <ToastContainer />
@@ -44,8 +48,8 @@ function ContainerFunction() {
         <button onClick={logout}>Sair</button>
       </Header>
       <Welcome>
-        <h1>Olá, {user.name} </h1>
-        <p> {user.course_module}- Introdução ao Frontend</p>
+        <h1>Olá, {dataUser.name} </h1>
+        <p> {dataUser?.course_module}- Introdução ao Frontend</p>
       </Welcome>
       <TecnologiasHeader>
         <h1>Tecnologias</h1>

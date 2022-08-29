@@ -1,28 +1,34 @@
 import { Link } from "react-router-dom";
-import { ContainerLogin } from "./style.js";
-import { Button } from "./style.js";
+import { ContainerLogin } from "./style";
+import { Button } from "./style";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { AuthContext } from "../../../context/context.jsx";
+import { AuthContext } from "../../../context/context";
 import { useContext } from "react";
 
-function Container({ user, setUser }) {
+
+interface IError{
+  email:string,
+  senha:string
+}
+
+function Container() {
   const { functionLogin } = useContext(AuthContext);
 
   const formSchema = yup.object().shape({
     email: yup.string().required("E-mail obrigatório").email("E-mail inválido"),
-    senha: yup.string("Senha inválida").required("Senha obrigatória"),
+    senha: yup.string().required("Senha obrigatória"),
   });
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<IError>({
     resolver: yupResolver(formSchema),
   });
 
@@ -47,7 +53,7 @@ function Container({ user, setUser }) {
         </form>
 
         <span>Ainda não possui uma conta?</span>
-        <Link to={"/register"} buttonColor="#868E96">
+        <Link to={"/register"} >
           <Button>Cadastre-se</Button>
         </Link>
 

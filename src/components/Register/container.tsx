@@ -1,15 +1,24 @@
 import { Link } from "react-router-dom";
-import {ContainerRegister, Total} from "./style.js"
-import { Button } from "./style.js";
+import {ContainerRegister, Total} from "./style"
+import { Button } from "./style";
 import { useForm } from "react-hook-form";
 import * as yup from "yup"
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useContext } from "react";
-import { AuthContext } from "../../context/context.jsx";
+import { AuthContext } from "../../context/context";
 
 
+interface IError{
+    nome:string,
+    email:string,
+    senha:string,
+    senhaConfirmada:string,
+    bio:string,
+    contato:string,
+    module:string
+  }
 
 function Container(){
     const {functionRegister} = useContext(AuthContext)
@@ -31,7 +40,7 @@ function Container(){
     const {register, 
         handleSubmit,
         formState:{errors}
-        } = useForm({
+        } = useForm<IError>({
             resolver: yupResolver(formSchema)
         })
 
@@ -77,7 +86,7 @@ function Container(){
                 </select>
                 
 
-                <Button typeof="submit" buttonColor="#868E96">Cadastrar</Button>
+                <Button typeof="submit">Cadastrar</Button>
                 <ToastContainer />
             </form>
 

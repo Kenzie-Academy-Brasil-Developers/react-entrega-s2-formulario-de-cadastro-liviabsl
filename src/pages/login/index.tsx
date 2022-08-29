@@ -1,8 +1,9 @@
 import Container from "../../components/Login/container/container";
 
-function LoginPage({setUser, user}){
+
+function LoginPage(){
     return(
-        <Container setUser={setUser} user={user}></Container>
+        <Container/>
     )
 }
 

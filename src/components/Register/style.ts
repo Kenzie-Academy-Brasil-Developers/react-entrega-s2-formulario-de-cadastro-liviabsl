@@ -112,7 +112,7 @@ export const Button = styled.button`
   border: none;
   padding: 0.6rem;
   cursor: pointer;
-  background-color: ${(props) => props.buttonColor  || "#FF577F"};
+  background-color:  #FF577F;
   transition: 1s;
 
   :hover{

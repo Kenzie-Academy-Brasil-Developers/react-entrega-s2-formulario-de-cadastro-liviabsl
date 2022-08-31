@@ -66,7 +66,9 @@ export const AuthProvider = ({ children} : IChildren ) => {
       });
   };
 
+
   const functionLogin = (data: Idata) => {
+    
     const newUser = {
       email: data.email,
       password: data.senha,

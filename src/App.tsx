@@ -3,13 +3,13 @@ import { Routes, Route, Navigate} from "react-router-dom";
 import LoginPage from "./pages/login";
 import Register from "./pages/register";
 import HomePage from "./pages/homePage";
-import { useState } from "react";
+//import { useState } from "react";
 //import AuthProvider from "./context/userContext"
 
 function App() {
 
 
-  const [user, setUser] = useState([])
+  //const [user, setUser] = useState([])
   
   return (
     //<AuthProvider>
@@ -19,7 +19,7 @@ function App() {
         path="/login"
         element={
           <div className="App">
-            <LoginPage setUser={setUser} user={user}/>
+            <LoginPage /*setUser={setUser} user={user}*//>
           </div>
         }
       />
@@ -38,7 +38,7 @@ function App() {
         path="/homepage"
         element={
           <div className="App">
-            <HomePage user={user} setUser={setUser}/>
+            <HomePage /*user={user} setUser={setUser}*//>
           </div>
         }
       />

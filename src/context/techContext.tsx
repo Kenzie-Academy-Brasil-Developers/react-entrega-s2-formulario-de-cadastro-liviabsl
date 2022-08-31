@@ -92,7 +92,8 @@ export const TechProvider = ({ children }: IChildren) => {
 
   useEffect(() => {
     const token = localStorage.getItem("@kenzie-hub-login-token");
-    api
+    if(token){
+      api
       .get(`/profile`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -102,7 +103,9 @@ export const TechProvider = ({ children }: IChildren) => {
         setTechs(response.data.techs);
         setDataUser(response.data);
       })
-      .catch(()=>  navigate("/login", { replace: true }))
+      .catch(()=> navigate("/login", { replace: true }) )
+    }
+    
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
